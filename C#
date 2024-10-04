@@ -1,0 +1,800 @@
+using System;
+
+public class TaskSolver
+{
+    
+
+    // Метод для вывода левого треугольника
+    public void LeftTriangle(int x)
+    {
+        if (x < 1)
+        {
+            Console.WriteLine("Высота треугольника должна быть положительной.");
+            return;
+        }
+
+        for (int i = 1; i <= x; i++)
+        {
+            Console.WriteLine(new string('*', i));
+        }
+    }
+
+    // Метод для проверки одинаковых цифр
+    public bool EqualNum(int x)
+    {
+        string strNum = x.ToString();
+        char firstDigit = strNum[0];
+
+        foreach (char digit in strNum)
+        {
+            if (digit != firstDigit)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Метод для вычисления степени числа
+    public void Pow(int x, int y)
+    {
+        if (y < 0)
+        {
+            Console.WriteLine("Степень не должна быть отрицательной.");
+            return;
+        }
+
+        int result = 1;
+        for (int i = 0; i < y; i++)
+        {
+            result *= x;
+        }
+
+        Console.WriteLine($"Результат {x} в степени {y} равен {result}.");
+    }
+
+    // Метод для игры "Угадай число"
+    public void GuessGame()
+    {
+        Random random = new Random();
+        int targetNumber = random.Next(0, 10);
+        int userGuess = -1;
+        int attempts = 0;
+
+        Console.WriteLine("Введите число от 0 до 9:");
+
+        while (userGuess != targetNumber)
+        {
+            string input = Console.ReadLine();
+            if (!int.TryParse(input, out userGuess)||userGuess<0|| userGuess > 9)
+            {
+                Console.WriteLine("Некорректный ввод. Пожалуйста, введите число от 0 до 9:");
+                continue;
+            }
+
+            attempts++;
+
+            if (userGuess == targetNumber)
+            {
+                Console.WriteLine("Вы угадали!");
+            }
+            else
+            {
+                Console.WriteLine("Вы не угадали, введите число от 0 до 9:");
+            }
+        }
+
+        Console.WriteLine($"Вы отгадали число за {attempts} попытки(ок).");
+    }
+
+    // Метод для вычисления суммы двух последних цифр числа
+    public int SumLastNums(int x)
+    {
+        if (x < 10)
+        {
+            throw new ArgumentException("Число должно содержать как минимум две цифры.");
+        }
+
+        int lastDigit = x % 10; // Последняя цифра
+        int secondLastDigit = (x / 10) % 10; // Предпоследняя цифра
+
+        return lastDigit + secondLastDigit; // Сумма последних двух цифр
+    }
+
+    // Метод для проверки, является ли число положительным
+    public bool IsPositive(int x)
+    {
+        return x > 0; // Возвращает true, если число положительное
+    }
+
+    // Метод для проверки, является ли символ заглавной буквой
+    public bool IsUpperCase(char x)
+    {
+        return char.IsUpper(x); // Проверка, является ли символ заглавным
+    }
+
+    // Метод для проверки, делит ли одно число другое нацело
+    public bool IsDivisor(int a, int b)
+    {
+        return (a != 0 && b % a == 0) || (b != 0 && a % b == 0); // Проверяет делимость
+    }
+
+    // Метод для вычисления суммы разрядов единиц двух чисел
+    public int LastNumSum(int a, int b)
+    {
+        return (a % 10) + (b % 10); // Сумма разрядов единиц
+    }
+
+    // Метод для последовательного сложения пяти чисел
+    public void SequentialSum()
+    {
+        int totalSum = 0;
+
+        for (int i = 0; i < 5; i++)
+        {
+            Console.WriteLine($"Введите число {i + 1}:");
+            if (int.TryParse(Console.ReadLine(), out int number))
+            {
+                totalSum = LastNumSum(totalSum, number);
+                Console.WriteLine($"Текущая сумма разрядов единиц: {totalSum}");
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод. Попробуйте еще раз.");
+                i--; // Повторяем текущую итерацию
+            }
+        }
+
+        Console.WriteLine($"Итого  {totalSum}");
+    }
+    // Метод для генерации чисел в обратном порядке
+    public string reverseListNums(int x)
+    {
+        if (x < 0)
+        {
+            throw new ArgumentException("Число должно быть неотрицательным.");
+        }
+
+        // Строка для хранения результата
+        string result = "";
+
+        // Генерация чисел от x до 0
+        for (int i = x; i >= 0; i--)
+        {
+            result += i; // Добавляем число к строке
+        }
+
+        return result; // Возвращаем полученную строку
+    }
+    // Метод для безопасного деления
+    public double safeDiv(int x, int y)
+    {
+        if (y == 0)
+        {
+            return 0; // Возвращает 0 при делении на ноль
+        }
+        return (double)x / y; // Выполняет деление
+    }
+    // Метод для сравнения двух чисел
+    public string makeDecision(int x, int y)
+    {
+        if (x > y)
+        {
+            return $"{x} > {y}";
+        }
+        else if (x < y)
+        {
+            return $"{x} < {y}";
+        }
+        else
+        {
+            return $"{x} == {y}";
+        }
+    }
+    // Метод для проверки, можно ли сложить два числа, чтобы получить третье
+    public bool sum3(int x, int y, int z)
+    {
+        return (x + y == z)|| (x + z == y)||(y + z == x);
+    }
+    // Метод для определения возраста с правильным окончанием
+    public string age(int x)
+    {
+        string suffix;
+
+        if (x % 100 >= 11 && x % 100 <= 14)
+        {
+            suffix = "лет"; // Специальный случай для 11-14
+        }
+        else if (x % 10 == 1)
+        {
+            suffix = "год"; // Если заканчивается на 1
+        }
+        else if (x % 10 >= 2 && x % 10 <= 4)
+        {
+            suffix = "года"; // Если заканчивается на 2, 3, 4
+        }
+        else
+        {
+            suffix = "лет"; // Во всех остальных случаях
+        }
+
+        return $"{x} {suffix}"; // Формируем строку
+    }
+    // Метод для вывода дней недели
+    public void printDays(string x)
+    {
+        switch (x.ToLower())
+        {
+            case "понедельник":
+                Console.WriteLine("понедельник");
+                Console.WriteLine("вторник");
+                Console.WriteLine("среда");
+                Console.WriteLine("четверг");
+                Console.WriteLine("пятница");
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "вторник":
+                Console.WriteLine("вторник");
+                Console.WriteLine("среда");
+                Console.WriteLine("четверг");
+                Console.WriteLine("пятница");
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "среда":
+                Console.WriteLine("среда");
+                Console.WriteLine("четверг");
+                Console.WriteLine("пятница");
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "четверг":
+                Console.WriteLine("четверг");
+                Console.WriteLine("пятница");
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "пятница":
+                Console.WriteLine("пятница");
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "суббота":
+                Console.WriteLine("суббота");
+                Console.WriteLine("воскресенье");
+                break;
+            case "воскресенье":
+                Console.WriteLine("воскресенье");
+                break;
+            default:
+                Console.WriteLine("это не день недели");
+                break;
+        }
+    }
+    // Метод для поиска последнего вхождения числа в массив
+    public int findLast(int[] arr, int x)
+    {
+        for (int i = arr.Length - 1; i >= 0; i--)
+        {
+            if (arr[i] == x)
+            {
+                return i; // Возвращаем индекс последнего вхождения
+            }
+        }
+        return -1; // Если число не найдено
+    }
+    // Метод для добавления элемента в массив
+    public int[] add(int[] arr, int x, int pos)
+    {
+        if (pos < 0 || pos > arr.Length) // Проверка на допустимость позиции
+        {
+            throw new ArgumentOutOfRangeException(nameof(pos), "Позиция должна быть в пределах от 0 до длины массива.");
+        }
+
+        int[] newArr = new int[arr.Length + 1]; // Создаем новый массив на 1 элемент больше
+
+        // Копируем элементы до указанной позиции
+        for (int i = 0; i < pos; i++)
+        {
+            newArr[i] = arr[i];
+        }
+
+        // Вставляем новый элемент
+        newArr[pos] = x;
+
+        // Копируем оставшиеся элементы
+        for (int i = pos; i < arr.Length; i++)
+        {
+            newArr[i + 1] = arr[i];
+        }
+
+        return newArr; // Возвращаем новый массив
+    }
+    // Метод для реверса массива
+    public int[] reverseBack(int[] arr)
+    {
+        int[] reversedArr = new int[arr.Length]; // Создаем новый массив той же длины
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            reversedArr[i] = arr[arr.Length - 1 - i]; // Заполняем новый массив в обратном порядке
+        }
+
+        return reversedArr; // Возвращаем новый массив
+    }
+    // Метод для объединения двух массивов
+    public int[] concat(int[] arr1, int[] arr2)
+    {
+        int[] combinedArr = new int[arr1.Length + arr2.Length]; // Создаем новый массив с общей длиной
+
+        // Копируем элементы первого массива
+        for (int i = 0; i < arr1.Length; i++)
+        {
+            combinedArr[i] = arr1[i];
+        }
+
+        // Копируем элементы второго массива
+        for (int i = 0; i < arr2.Length; i++)
+        {
+            combinedArr[arr1.Length + i] = arr2[i];
+        }
+
+        return combinedArr; // Возвращаем объединенный массив
+    }
+    // Метод для удаления негативных чисел из массива
+    public int[] deleteNegative(int[] arr)
+    {
+        // Считаем количество ненегативных элементов
+        int count = 0;
+        foreach (int num in arr)
+        {
+            if (num >= 0)
+            {
+                count++;
+            }
+        }
+
+        // Создаем новый массив нужного размера
+        int[] result = new int[count];
+        int index = 0;
+
+        // Заполняем новый массив ненегативными элементами
+        foreach (int num in arr)
+        {
+            if (num >= 0)
+            {
+                result[index++] = num;
+            }
+        }
+
+        return result; // Возвращаем новый массив
+    }
+
+}
+
+class Program
+{
+    static void Main()
+    {
+        TaskSolver solver = new TaskSolver();
+
+        
+
+        // Ввод данных для треугольника
+        Console.WriteLine("Введите высоту треугольника ");
+        if (int.TryParse(Console.ReadLine(), out int triangleHeight))
+        {
+            solver.LeftTriangle(triangleHeight);
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для высоты треугольника.");
+        }
+
+        // Ввод данных для проверки одинаковых цифр
+        Console.WriteLine("Введите число для проверки одинаковых цифр ");
+        if (int.TryParse(Console.ReadLine(), out int numberForCheck))
+        {
+            bool result = solver.EqualNum(numberForCheck);
+            Console.WriteLine(result ? "Все цифры одинаковые." : "Цифры не одинаковые.");
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для проверки цифр.");
+        }
+
+        // Ввод данных для степени числа
+        Console.WriteLine("Введите число (основание) ");
+        if (int.TryParse(Console.ReadLine(), out int baseNumber))
+        {
+            Console.WriteLine("Введите степень ");
+            if (int.TryParse(Console.ReadLine(), out int exponent))
+            {
+                solver.Pow(baseNumber, exponent);
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для степени.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для основания.");
+        }
+
+        // Ввод данных для суммы последних двух цифр
+        Console.WriteLine("Введите число для суммы последних двух цифр ");
+        if (int.TryParse(Console.ReadLine(), out int numberForSum))
+        {
+            try
+            {
+                int sum = solver.SumLastNums(numberForSum);
+                Console.WriteLine($"Сумма последних двух цифр числа {numberForSum} равна {sum}.");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для суммы последних двух цифр.");
+        }
+
+        // Ввод данных для проверки положительности числа
+        Console.WriteLine("Введите число для проверки на положительность ");
+        if (int.TryParse(Console.ReadLine(), out int numberForPositivity))
+        {
+            bool isPositive = solver.IsPositive(numberForPositivity);
+            Console.WriteLine(isPositive ? "Число положительное." : "Число не положительное.");
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для проверки на положительность.");
+        }
+
+        // Ввод данных для проверки заглавной буквы
+        Console.WriteLine("Введите символ для проверки на заглавную букву:");
+        char characterForCheck = Console.ReadKey().KeyChar; // Считывает символ с клавиатуры
+        Console.WriteLine(); // Переход на новую строку
+        bool isUpper = solver.IsUpperCase(characterForCheck);
+        Console.WriteLine(isUpper ? "Символ является заглавной буквой." : "Символ не является заглавной буквой.");
+
+        // Ввод данных для проверки делимости
+        Console.
+WriteLine("Введите первое число (a) ");
+        if (int.TryParse(Console.ReadLine(), out int a))
+        {
+            Console.WriteLine("Введите второе число (b) ");
+            if (int.TryParse(Console.ReadLine(), out int b))
+            {
+                bool isDivisor = solver.IsDivisor(a, b);
+                Console.WriteLine(isDivisor ? $"{a} делит {b} нацело или наоборот." : $"{a} не делит {b} нацело и наоборот.");
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для второго числа (b).");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для первого числа (a).");
+        }
+        // Ввод данных для генерации чисел в обратном порядке
+        Console.WriteLine("Введите число для генерации чисел от него до 0 ");
+        if (int.TryParse(Console.ReadLine(), out int reverseNumber))
+        {
+            try
+            {
+                string reversedNumbers = solver.reverseListNums(reverseNumber);
+                Console.WriteLine($"Результат  {reversedNumbers}");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для генерации чисел.");
+        }
+
+        // Ввод данных для безопасного деления
+        Console.WriteLine("Введите числитель (x) ");
+        if (int.TryParse(Console.ReadLine(), out int numerator))
+        {
+            Console.WriteLine("Введите знаменатель (y) ");
+            if (int.TryParse(Console.ReadLine(), out int denominator))
+            {
+                double result = solver.safeDiv(numerator, denominator);
+                Console.WriteLine($"Результат деления {numerator} на {denominator} равен {result}.");
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для знаменателя.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для числителя.");
+        }
+        // Ввод данных для сравнения двух чисел
+        Console.WriteLine("Введите первое число (x) ");
+        if (int.TryParse(Console.ReadLine(), out int x))
+        {
+            Console.WriteLine("Введите второе число (y) ");
+            if (int.TryParse(Console.ReadLine(), out int y))
+            {
+                string decision = solver.makeDecision(x, y);
+                Console.WriteLine(decision);
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для второго числа.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для первого числа.");
+        }
+        // Ввод данных для проверки тройной суммы
+        Console.WriteLine("Введите первое число (x):");
+        if (int.TryParse(Console.ReadLine(), out int x1))
+        {
+            Console.WriteLine("Введите второе число (y):");
+            if (int.TryParse(Console.ReadLine(), out int y))
+            {
+                Console.WriteLine("Введите третье число (z):");
+                if (int.TryParse(Console.ReadLine(), out int z))
+                {
+                    bool result = solver.sum3(x1, y, z);
+                    Console.WriteLine($"Результат  {result}");
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод для третьего числа.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для второго числа.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для первого числа.");
+        }
+        // Остальные вызовы методов...
+
+        // Ввод данных для определения возраста
+        Console.WriteLine("Введите возраст  ");
+        if (int.TryParse(Console.ReadLine(), out int ageInput))
+        {
+            string ageResult = solver.age(ageInput);
+            Console.WriteLine(ageResult);
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод для возраста.");
+        }
+        // Ввод данных для вывода дней недели
+        Console.WriteLine("Введите день недели  ");
+        string dayInput = Console.ReadLine();
+        solver.printDays(dayInput);
+        // Ввод данных для поиска последнего значения
+        Console.WriteLine("Введите длину массива:");
+        if (int.TryParse(Console.ReadLine(), out int length) && length > 0)
+        {
+            int[] arr = new int[length];
+
+            Console.WriteLine("Введите элементы массива  ");
+            for (int i = 0; i < length; i++)
+            {
+                Console.Write($"Элемент {i + 1}  ");
+                if (int.TryParse(Console.ReadLine(), out int element))
+                {
+                    arr[i] = element;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Введите число.");
+                    i--; // Повторяем текущую итерацию
+                }
+            }
+
+            Console.WriteLine("Введите число для поиска его последнего вхождения:");
+            if (int.TryParse(Console.ReadLine(), out int x2))
+            {
+                int result = solver.findLast(arr, x);
+                if (result != -1)
+                {
+                    Console.WriteLine($"Последнее вхождение числа {x2} находится по индексу {result}.");
+                }
+                else
+                {
+                    Console.WriteLine($"Число {x2} не найдено в массиве.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для числа поиска.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод длины массива.");
+        }
+        // Ввод данных для добавления элемента в массив
+        Console.WriteLine("Введите длину массива ");
+        if (int.TryParse(Console.ReadLine(), out int length1) && length1 > 0)
+        {
+            int[] arr = new int[length1];
+
+            Console.WriteLine("Введите элементы массива ");
+            for (int i = 0; i < length1; i++)
+            {
+                Console.Write($"Элемент {i + 1}  ");
+                if (int.TryParse(Console.ReadLine(), out int element))
+                {
+                    arr[i] = element;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Введите число.");
+                    i--; // Повторяем текущую итерацию
+                }
+            }
+
+            Console.WriteLine("Введите число для добавления:");
+            if (int.TryParse(Console.ReadLine(), out int x4))
+            {
+                Console.WriteLine("Введите позицию для добавления  ");
+                if (int.TryParse(Console.ReadLine(), out int pos))
+                {
+                    try
+                    {
+                        int[] newArr = solver.add(arr, x4, pos);
+                        Console.WriteLine("Новый массив  [" + string.Join(", ", newArr) + "]");
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод для позиции.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод для числа добавления.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод длины массива.");
+        }
+
+        // ввод данных для реверса массива
+        Console.WriteLine("Введите длину массива ");
+        if (int.TryParse(Console.ReadLine(), out int length2) && length2 > 0)
+        {
+            int[] arr = new int[length2];
+
+            Console.WriteLine("Введите элементы массива ");
+            for (int i = 0; i < length2; i++)
+            {
+                Console.Write($"Элемент {i + 1}  ");
+                if (int.TryParse(Console.ReadLine(), out int element))
+                {
+                    arr[i] = element;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Введите число.");
+                    i--; // Повторяем текущую итерацию
+                }
+            }
+
+            int[] reversedArr = solver.reverseBack(arr);
+            Console.WriteLine("Новый массив в обратном порядке   [" + string.Join(", ", reversedArr) + "]");
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод длины массива");
+        }
+        // Ввод данных для первого массива
+        Console.WriteLine("Введите длину первого массива  ");
+        if (int.TryParse(Console.ReadLine(), out int length11) && length11 > 0)
+        {
+            int[] arr1 = new int[length11];
+
+            Console.WriteLine("Введите элементы первого массива  ");
+            for (int i = 0; i < length11; i++)
+            {
+                Console.Write($"Элемент {i + 1}  ");
+                if (int.TryParse(Console.ReadLine(), out int element))
+                {
+                    arr1[i] = element;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Введите число");
+                    i--; // Повторяем текущую итерацию
+                }
+            }
+
+            // Ввод данных для второго массива
+            Console.WriteLine("Введите длину второго массива  ");
+            if (int.TryParse(Console.ReadLine(), out int length22) && length22 > 0)
+            {
+                int[] arr2 = new int[length22];
+
+                Console.WriteLine("Введите элементы второго массива  ");
+                for (int i = 0; i < length22; i++)
+                {
+                    Console.Write($"Элемент {i + 1}  ");
+                    if (int.TryParse(Console.ReadLine(), out int element))
+                    {
+                        arr2[i] = element;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Некорректный ввод. Введите число.");
+                        i--; // Повторяем текущую итерацию
+                    }
+                }
+
+                // Объединение массивов
+                int[] combinedArr = solver.concat(arr1, arr2);
+                Console.WriteLine("Объединённый массив [" + string.Join(", ", combinedArr) + "]");
+            }
+            else
+            {
+                Console.WriteLine("Некорректный ввод длины второго массива.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод длины первого массива");
+        }
+        // Ввод данных для удаления негативных чисел
+        Console.WriteLine("Введите длину массива");
+        if (int.TryParse(Console.ReadLine(), out int length3) && 3 > 0)
+        {
+            int[] arr = new int[length3];
+
+            Console.WriteLine("Введите элементы массива");
+            for (int i = 0; i < length3; i++)
+            {
+                Console.Write($"Элемент {i + 1}: ");
+                if (int.TryParse(Console.ReadLine(), out int element))
+                {
+                    arr[i] = element;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Введите число.");
+                    i--; // Повторяем текущую итерацию
+                }
+            }
+
+            // Удаление негативных чисел
+            int[] result = solver.deleteNegative(arr);
+            Console.WriteLine("Массив без негативных чисел [" + string.Join(", ", result) + "]");
+        }
+        else
+        {
+            Console.WriteLine("Некорректный ввод длины массива");
+        }
+
+        // Ввод данных для игры "Угадай число"
+        solver.GuessGame();
+
+        // Ввод данных для последовательного сложения
+        solver.SequentialSum();
+    }
+}
