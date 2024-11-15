@@ -1,0 +1,222 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    // Задача 1: Удаление всех элементов с указанным значением из списка
+    public static void RemoveAllOccurrences(List<double> list, double value)
+    {
+        list.RemoveAll(item => item == value);
+    }
+
+    // Задача 2: Перестановка элементов между первым и последним вхождением элемента E в списке
+    public static void ReverseBetweenFirstAndLastOccurrence(List<double> list, double E)
+    {
+        int firstIndex = list.IndexOf(E);
+        int lastIndex = list.LastIndexOf(E);
+
+        if (firstIndex == -1 || firstIndex == lastIndex)
+        {
+            Console.WriteLine("Элемент не встречается дважды, список не изменен.");
+            return;
+        }
+
+        while (firstIndex < lastIndex - 1)
+        {
+            double temp = list[firstIndex + 1];
+            list[firstIndex + 1] = list[lastIndex - 1];
+            list[lastIndex - 1] = temp;
+
+            firstIndex++;
+            lastIndex--;
+        }
+    }
+
+    // Задача 3: Категоризация фильмов по просмотрам зрителей
+    public static void CategorizeFilms()
+    {
+        Console.Write("Введите количество фильмов: ");
+        int filmCount = int.Parse(Console.ReadLine());
+
+        List<string> films = new List<string>();
+        Console.WriteLine("Введите названия фильмов:");
+        for (int i = 0; i < filmCount; i++)
+        {
+            Console.Write($"Фильм {i + 1}: ");
+            films.Add(Console.ReadLine());
+        }
+
+        Console.Write("Введите количество зрителей: ");
+        int viewerCount = int.Parse(Console.ReadLine());
+
+        List<HashSet<string>> viewers = new List<HashSet<string>>();
+        for (int i = 0; i < viewerCount; i++)
+        {
+            Console.WriteLine($"Введите фильмы, которые посмотрел зритель {i + 1} (через запятую):");
+            string input = Console.ReadLine();
+            var viewerFilms = new HashSet<string>(input.Split(',').Select(f => f.Trim()));
+            viewers.Add(viewerFilms);
+        }
+
+        foreach (var film in films)
+        {
+            string category = GetFilmCategory(film, viewers);
+            Console.WriteLine($"Фильм: {film} - {category}");
+        }
+    }
+
+    private static string GetFilmCategory(string film, List<HashSet<string>> viewers)
+    {
+        bool allViewed = viewers.All(viewer => viewer.Contains(film));
+        bool someViewed = viewers.Any(viewer => viewer.Contains(film));
+        bool noneViewed = !viewers.Any(viewer => viewer.Contains(film));
+
+        if (allViewed)
+            return "Посмотрели все зрители";
+        if (someViewed)
+            return "Посмотрели некоторые зрители";
+        if (noneViewed)
+            return "Не посмотрел никто";
+
+        return "Ошибка";
+    }
+
+    // Задача 4: Подсчет звонких согласных, встречающихся более чем в одном слове
+    public static void CountVoicedConsonantsInWords()
+    {
+        HashSet<char> voicedConsonants = new HashSet<char> { 'б', 'в', 'г', 'д', 'ж', 'з', 'й', 'л', 'м', 'н', 'р' };
+
+        // Чтение текста из файла (предположим, что файл text.txt находится в той же директории)
+        string text = File.ReadAllText("text.txt").ToLower();
+
+        string[] words = Regex.Split(text, @"\W+");
+
+        Dictionary<string, HashSet<char>> wordConsonants = new Dictionary<string, HashSet<char>>();
+
+        foreach (var word in words)
+        {
+            if (string.IsNullOrEmpty(word)) continue;
+
+            HashSet<char> consonantsInWord = new HashSet<char>();
+
+            foreach (var ch in word)
+            {
+                if (voicedConsonants.Contains(ch))
+                {
+                    consonantsInWord.Add(ch);
+                }
+            }
+
+            if (consonantsInWord.Count > 0)
+            {
+                wordConsonants[word] = consonantsInWord;
+            }
+        }
+
+        // Подсчет количества слов, в которых встречается каждая из звонких согласных
+        Dictionary<char, int> consonantWordCount = new Dictionary<char, int>(); foreach (var word in wordConsonants.Values)
+        {
+            foreach (var consonant in word)
+            {
+                if (consonantWordCount.ContainsKey(consonant))
+                {
+                    consonantWordCount[consonant]++;
+                }
+                else
+                {
+                    consonantWordCount[consonant] = 1;
+                }
+            }
+        }
+
+        // Выводим согласные, которые встречаются более чем в одном слове
+        var result = consonantWordCount
+            .Where(kvp => kvp.Value > 1)
+            .OrderBy(kvp => kvp.Key)
+            .Select(kvp => kvp.Key);
+
+        Console.WriteLine("Звонкие согласные, которые встречаются более чем в одном слове:");
+        foreach (var consonant in result)
+        {
+            Console.WriteLine(consonant);
+        }
+    }
+
+    // Вспомогательные методы для работы с List<double>
+    private static void PrintList(List<double> list)
+    {
+        foreach (var item in list)
+        {
+            Console.Write(item + " ");
+        }
+        Console.WriteLine();
+    }
+
+    private static List<double> ReadListFromConsole(string prompt)
+    {
+        Console.WriteLine(prompt);
+        string input = Console.ReadLine();
+        string[] inputArray = input.Split(' ');
+
+        List<double> list = new List<double>();
+        foreach (string str in inputArray)
+        {
+            if (double.TryParse(str, out double number))
+            {
+                list.Add(number);
+            }
+            else
+            {
+                Console.WriteLine($"'{str}' не является числом, оно будет проигнорировано.");
+            }
+        }
+        return list;
+    }
+
+    // Основной метод
+    static void Main()
+    {
+        // Задача 1: Работа с первым списком
+        List<double> firstList = ReadListFromConsole("Введите элементы первого списка через пробел:");
+
+        Console.WriteLine("Введите число, которое нужно удалить из первого списка:");
+        double valueToRemove;
+        while (!double.TryParse(Console.ReadLine(), out valueToRemove))
+        {
+            Console.WriteLine("Пожалуйста, введите число.");
+        }
+
+        Console.WriteLine("Исходный первый список:");
+        PrintList(firstList);
+
+        RemoveAllOccurrences(firstList, valueToRemove);
+        Console.WriteLine($"Первый список после удаления всех элементов со значением {valueToRemove}:");
+        PrintList(firstList);
+
+        // Задача 2: Работа со вторым списком
+        List<double> secondList = ReadListFromConsole("Введите элементы второго списка через пробел:");
+
+        Console.WriteLine("Введите элемент, элементы между первым и последним вхождением которого нужно перевернуть во втором списке:");
+        double E;
+        while (!double.TryParse(Console.ReadLine(), out E))
+        {
+            Console.WriteLine("Пожалуйста, введите число.");
+        }
+
+        Console.WriteLine("Исходный второй список:");
+        PrintList(secondList);
+
+        ReverseBetweenFirstAndLastOccurrence(secondList, E);
+        Console.WriteLine($"Второй список после перестановки элементов между первым и последним вхождением элемента {E}:");
+        PrintList(secondList);
+
+        // Задача 3: Категоризация фильмов
+        CategorizeFilms();
+
+        // Задача 4: Подсчет звонких согласных в тексте
+        CountVoicedConsonantsInWords();
+    }
+}
